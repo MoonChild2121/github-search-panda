@@ -1,0 +1,182 @@
+import { defineConfig } from "@pandacss/dev";
+import { textStyles } from './src/theme/text-styles';
+import { buttonRecipe } from './src/theme/recipes/button'; // Import your recipe
+
+export default defineConfig({
+  // Whether to use css reset
+  preflight: true,
+
+  // Where to look for your css declarations
+  include: ["./src/**/*.{js,jsx,ts,tsx}"],
+
+  // Files to exclude
+  exclude: [],
+
+  // Add conditions for theme switching
+  conditions: {
+    light: '.light &',
+    dark: '.dark &',
+  },
+
+  // Global styles - Updated to use semantic tokens properly
+  globalCss: {
+    'html, body': {
+      margin: 0,
+      backgroundColor: 'bg', // This will use your semantic token
+      color: 'text.primary',  // This will use your semantic token
+      transition: 'background-color 0.2s ease-in-out, color 0.2s ease-in-out',
+    },
+    '#root': {
+      backgroundColor: 'bg',
+      color: 'text.primary',
+      minHeight: '100vh',
+    }
+  },
+
+  // Theme configuration
+  theme: {
+    extend: {
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' }
+        }
+      },
+      recipes: {
+        button: buttonRecipe // Add your button recipe here
+      }
+    },
+    tokens: {
+      colors: {
+        white: { value: '#ffffff' },
+        black: { value: '#000000' },
+        gray: {
+          50: { value: '#f8f9fa' },
+          100: { value: '#edf2f7' },
+          200: { value: '#e2e8f0' },
+          300: { value: '#cbd5e0' },
+          500: { value: '#718096' },
+          700: { value: '#2d3748' },
+          800: { value: '#1a202c' },
+          900: { value: '#171923' }
+        },
+        red: { value: '#FF0000'}
+      },
+      sizes: {
+        sm: { value: '36px' },
+        md: { value: '48px' },
+        lg: { value: '56px' },
+        container: {
+          sm: { value: '640px' },
+          md: { value: '768px' },
+          lg: { value: '1024px' },
+          xl: { value: '1280px' }
+        }
+      },
+      spacing: {
+        0: { value: '0rem' },
+        0.5: { value: '0.125rem' },
+        1: { value: '0.25rem' },
+        2: { value: '0.5rem' },
+        3: { value: '0.75rem' },
+        4: { value: '1rem' },
+        6: { value: '1.5rem' },
+        8: { value: '2rem' },
+        12: { value: '3rem' },
+        16: { value: '4rem' }
+      },
+      fontSizes: {
+        sm: { value: '0.875rem' },
+        md: { value: '1rem' },
+        lg: { value: '1.25rem' }
+      },
+      radii: {
+        sm: { value: '4px' },
+        md: { value: '6px' },
+        full: { value: '9999px' }
+      }
+    },
+    semanticTokens: {
+      colors: {
+        'bg': {
+          value: {
+            base: '{colors.white}',
+            _dark: '{colors.gray.900}'
+          }
+        },
+        'text': {
+          'primary': {
+            value: {
+              base: '{colors.gray.900}',
+              _dark: '{colors.gray.50}'
+            }
+          }
+        },
+        'border': {
+          'primary': {
+            value: {
+              base: '{colors.gray.500}',
+              _dark: '{colors.gray.200}'
+            }
+          }
+        },
+        'field': {
+          'bg': {
+            value: {
+              base: '{colors.gray.50}',
+              _dark: '{colors.gray.800}'
+            }
+          },
+          'text': {
+            value: {
+              base: '{colors.gray.900}',
+              _dark: '{colors.gray.50}'
+            }
+          },
+          'placeholder': {
+            value: {
+              base: '{colors.gray.700}',
+              _dark: '{colors.gray.300}'
+            }
+          },
+          'hover': {
+            'bg': {
+              value: {
+                base: '{colors.gray.100}',
+                _dark: '{colors.gray.700}'
+              }
+            }
+          },
+          'focus': {
+            'ring': {
+              value: {
+                base: '{colors.gray.200}',
+                _dark: '{colors.gray.700}'
+              }
+            }
+          }
+        }
+      },
+      sizes: {
+        'field': {
+          'height': { value: '{sizes.md}' },
+          'fontSize': { value: '{fontSizes.md}' }
+        }
+      },
+      spacing: {
+        'field': {
+          'padding': { value: '{spacing.6}' },
+          'x': { value: '{spacing.3}' }
+        }
+      },
+      radii: {
+        'field': { value: '{radii.sm}' }
+      }
+    },
+    textStyles
+  },
+
+  // The output directory for your css system
+  outdir: "styled-system",
+  jsxFramework: 'react',
+});
